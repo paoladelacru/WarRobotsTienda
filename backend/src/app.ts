@@ -2,6 +2,7 @@ import 'reflect-metadata'; // Requerido para los decoradores AOP
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import catalogoRoutes from './modules/catalogo/catalogo.routes';
+import comprasRoutes from './modules/compras/compras.routes';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,10 @@ app.get('/api/v1', (_req: Request, res: Response) => {
         estado: 'ONLINE'
     });
 });
+
+// Rutas de los submódulos de la tienda
+app.use('/api/v1/tienda', catalogoRoutes);
+app.use('/api/v1/tienda', comprasRoutes);
 
 // Rutas de los submódulos de la tienda
 app.use('/api/v1/tienda', catalogoRoutes);
