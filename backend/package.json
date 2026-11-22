@@ -8,11 +8,17 @@
     "build": "tsc",
     "start": "node dist/app.js"
   },
-  "keywords": ["war-bots", "api", "typescript", "express"],
+  "keywords": [
+    "war-bots",
+    "api",
+    "typescript",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^18.0.10",
     "express": "^4.21.2",
     "mongoose": "^9.12.0",
     "reflect-metadata": "^0.2.2"
