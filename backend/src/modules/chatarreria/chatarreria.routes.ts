@@ -1,13 +1,11 @@
 import { Router } from 'express';
-import { CatalogoController } from './catalogo.controller';
+import { ChatarreriaController } from './chatarreria.controller';
 
 const router = Router();
-const catalogoController = new CatalogoController();
+const chatarreriaController = new ChatarreriaController();
 
-/**
- * API 01: GET /api/v1/tienda/catalogo
- * Consulta del catálogo unificado (Fábrica + Chatarra) con soporte de filtros.
- */
-router.get('/catalogo', catalogoController.obtenerCatalogo);
 
+router.post('/comprar-chatarra', chatarreriaController.comprarChatarra)
+router.put('/stock/actualizar', chatarreriaController.reabastecerInventario)
+router.post('/eventos/embargo', chatarreriaController.webhookEmbargo)
 export default router;
