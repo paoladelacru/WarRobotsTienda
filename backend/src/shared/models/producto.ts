@@ -22,6 +22,8 @@ export interface Producto {
     stock_disponible: number//
 }
 
+
+
 export type CrearProductoInput = Omit<Producto, '_id' | 'sku' | 'precio_final' | 'es_chatarra'> & {
     _id?: Types.ObjectId
     sku?: string
