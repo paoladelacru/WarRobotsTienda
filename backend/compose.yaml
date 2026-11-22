@@ -1,0 +1,46 @@
+services:
+  # Base de Datos MongoDB
+  mongo:
+    image: mongo:7.0
+    container_name: warbots_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: tienda_db
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - warbots-network
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Microservicio de la Tienda (API en TypeScript)
+  api:
+    build:
+      context: .
+    container_name: warbots_tienda_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongo:27017/tienda_db
+      ALLOWED_ORIGINS: http://localhost:5173,http://localhost:3000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - warbots-network
+
+volumes:
+  mongodb-data:
+
+networks:
+  warbots-network:
+    driver: bridge
