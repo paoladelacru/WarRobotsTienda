@@ -1,44 +1,80 @@
 import fs from 'fs';
 import path from 'path';
-import { Producto } from '../../models/producto';
+import { ProductoModel, ProductoDTO } from '../../models/producto.model';
 
 export class ProductoRepository {
-  private static filePath = path.join(__dirname, 'productos.json');
+  private static seedFilePath = path.join(__dirname, 'productos.json');
 
   /**
-   * Lee todos los productos almacenados en el archivo JSON
+   * Si la colección de MongoDB está vacía, la siembra con los datos iniciales de productos.json
    */
-  public static async obtenerTodos(): Promise<Producto[]> {
+  public static async sembrarDatosSiEstaVacio(): Promise<void> {
     try {
-      if (!fs.existsSync(this.filePath)) {
-        return [];
+      const cantidad = await ProductoModel.countDocuments();
+      if (cantidad === 0 && fs.existsSync(this.seedFilePath)) {
+        const rawData = await fs.promises.readFile(this.seedFilePath, 'utf-8');
+        const productosIniciales: any[] = JSON.parse(rawData);
+        await ProductoModel.insertMany(productosIniciales);
+        console.log(`🌱 [Seed]: Se sembraron ${productosIniciales.length} productos en MongoDB (tienda_db)`);
       }
-      const data = await fs.promises.readFile(this.filePath, 'utf-8');
-      return JSON.parse(data) as Producto[];
     } catch (error) {
-      console.error('Error al leer productos.json:', error);
+      console.error('Error al sembrar datos en MongoDB:', error);
+    }
+  }
+
+  /**
+   * Obtiene todos los productos directamente desde MongoDB
+   */
+  public static async obtenerTodos(): Promise<any[]> {
+    try {
+      await this.sembrarDatosSiEstaVacio();
+      return await ProductoModel.find().lean();
+    } catch (error) {
+      console.error('Error al obtener productos desde MongoDB:', error);
       return [];
     }
   }
 
   /**
-   * Guarda o actualiza la lista completa de productos
+   * Busca un producto por su SKU en MongoDB
    */
-  public static async guardarTodos(productos: Producto[]): Promise<boolean> {
+  public static async obtenerPorSku(sku: string): Promise<any | null> {
     try {
-      await fs.promises.writeFile(this.filePath, JSON.stringify(productos, null, 2), 'utf-8');
-      return true;
+      return await ProductoModel.findOne({ sku }).lean();
     } catch (error) {
-      console.error('Error al escribir productos.json:', error);
-      return false;
+      console.error(`Error al buscar SKU ${sku} en MongoDB:`, error);
+      return null;
     }
   }
 
   /**
-   * Busca un producto específico por su SKU
+   * Inserta o actualiza un producto en MongoDB
    */
-  public static async obtenerPorSku(sku: string): Promise<Producto | null> {
-    const productos = await this.obtenerTodos();
-    return productos.find(p => p.sku === sku) || null;
+  public static async guardarProducto(producto: any): Promise<any | null> {
+    try {
+      return await ProductoModel.findOneAndUpdate(
+        { sku: producto.sku },
+        producto,
+        { upsert: true, new: true, runValidators: true }
+      ).lean();
+    } catch (error) {
+      console.error('Error al guardar producto en MongoDB:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Compatibilidad con Compras: Guarda o actualiza múltiples productos en MongoDB
+   */
+  public static async guardarTodos(productos: any[]): Promise<boolean> {
+    try {
+      for (const prod of productos) {
+        await this.guardarProducto(prod);
+      }
+      return true;
+    } catch (error) {
+      console.error('Error al guardar lista de productos:', error);
+      return false;
+    }
   }
 }
