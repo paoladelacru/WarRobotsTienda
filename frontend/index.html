@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WAR-BOTS | Tienda Oficial & Compras Unificadas</title>
+    <!-- Google Fonts para estilo Cyberpunk / Combate -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+
+<body class="store">
+
+    <!-- ENCABEZADO PRINCIPAL -->
+    <header class="store__header header">
+        <div class="header__container">
+            <div class="header__brand">
+                <span class="header__badge">MÓDULO 1</span>
+                <h1 class="header__title">WAR-BOTS</h1>
+                <p class="header__subtitle">Tienda Oficial & Compras Unificadas</p>
+            </div>
+            <div class="header__wallet wallet">
+                <span class="wallet__label">Billetera Piloto:</span>
+                <span class="wallet__amount" id="wallet-balance">$1.000 CR</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- PESTAÑAS PRINCIPALES (FÁBRICA vs CHATARRERÍA) -->
+    <nav class="store__navigation tabs" aria-label="Navegación del Catálogo" role="tablist">
+        <button class="tabs__btn tabs__btn--active" id="tab-fabrica" role="tab" aria-selected="true"
+            aria-controls="catalog-container" data-origen="fabrica">
+            🏭 Catálogo de Fábrica (100% HP)
+        </button>
+        <button class="tabs__btn" id="tab-chatarra" role="tab" aria-selected="false" aria-controls="catalog-container"
+            data-origen="chatarra">
+            🔩 La Chatarrería / Usados
+        </button>
+    </nav>
+
+    <!-- CONTENEDOR CENTRAL: FILTROS + CATÁLOGO -->
+    <div class="store__content layout">
+
+        <!-- PANEL DE FILTROS -->
+        <aside class="layout__sidebar filters" aria-label="Filtros del Catálogo">
+            <div class="filters__card">
+                <h2 class="filters__title">Filtrar Componentes</h2>
+
+                <!-- Búsqueda por texto -->
+                <div class="filters__group">
+                    <label class="filters__label" for="filter-search">Buscar por nombre:</label>
+                    <input type="search" id="filter-search" class="filters__input"
+                        placeholder="Ej: Titan, Láser, Escudo..." aria-label="Buscar componente por nombre" />
+                </div>
+
+                <!-- Filtro por Categoría/Tipo -->
+                <div class="filters__group">
+                    <label class="filters__label" for="filter-type">Tipo de Pieza:</label>
+                    <select id="filter-type" class="filters__select" aria-label="Seleccionar categoría de robot">
+                        <option value="">Todos los tipos</option>
+                        <option value="chasis">Chasis Principal</option>
+                        <option value="arma">Armamento Ofensivo</option>
+                        <option value="escudo">Escudo Defensivo</option>
+                        <option value="motor">Propulsor / Motor</option>
+                    </select>
+                </div>
+
+                <!-- Filtro por Rango de Precio -->
+                <div class="filters__group">
+                    <div class="filters__header-row">
+                        <label class="filters__label" for="filter-price">Precio Máximo:</label>
+                        <span class="filters__value-badge" id="price-display">$1.000 CR</span>
+                    </div>
+                    <input type="range" id="filter-price" class="filters__range" min="50" max="1500" step="50"
+                        value="1500" aria-label="Filtrar por precio máximo" />
+                </div>
+
+                <!-- Botón de limpieza -->
+                <button id="btn-reset-filters" class="filters__btn-reset" type="button">
+                    Restablecer Filtros
+                </button>
+            </div>
+        </aside>
+
+        <!-- ÁREA DE PRODUCTOS -->
+        <main class="layout__main catalog">
+            <header class="catalog__header">
+                <div class="catalog__info">
+                    <h2 class="catalog__heading" id="catalog-heading">Catálogo de Fábrica</h2>
+                    <span class="catalog__count" id="catalog-count">Cargando productos...</span>
+                </div>
+            </header>
+
+            <!-- Grid de Tarjetas (Renderizado dinámico mediante TypeScript) -->
+            <section class="catalog__grid" id="catalog-container" tabindex="0" aria-live="polite">
+                <!-- Tarjetas inyectadas por TypeScript -->
+            </section>
+        </main>
+    </div>
+
+    <footer class="store__footer footer">
+        <p class="footer__text">
+            WAR-BOTS Combat Platform &copy; 2026 &bull; Tópicos Especiales de Programación &bull; Módulo 1: Tienda
+            Oficial
+        </p>
+    </footer>
+
+    <!-- Script principal de TypeScript -->
+    <script type="module" src="./src/ts/catalogo/index.ts"></script>
+</body>
+
+</html>

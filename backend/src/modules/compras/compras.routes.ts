@@ -5,7 +5,7 @@ const router = Router();
 const controller = new ComprasController();
 
 router.post('/comprar-fabrica', controller.comprarFabrica);
-router.post('/comprar-chatarra', controller.comprarChatarra);
+// router.post('/comprar-chatarra', controller.comprarChatarra); // Centralizado en modulo chatarreria (Andres)
 router.post('/cupones/validar', controller.validarCupon);
 router.get('/historial/:jugador_id', controller.obtenerHistorial);
 

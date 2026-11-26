@@ -25,9 +25,4 @@ app.use('/api/v1/tienda', catalogoRoutes);
 app.use('/api/v1/tienda', comprasRoutes);
 app.use('/api/v1/tienda', chatarreriaRoutes)
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
-
 export default app;
