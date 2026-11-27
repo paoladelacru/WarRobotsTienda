@@ -1,8 +1,10 @@
 import { ApiService, FiltrosFrontend, ProductoFrontend } from '../shared/api.service';
 import { CatalogoView } from './catalogo.view';
+import { CarritoController } from '../carrito/carrito.controller';
 
 class CatalogoApp {
     private view: CatalogoView;
+    private carrito: CarritoController;
     private filtrosActuales: FiltrosFrontend = {
         es_chatarra: false,
         tipo: '',
@@ -21,6 +23,7 @@ class CatalogoApp {
 
     constructor() {
         this.view = new CatalogoView();
+        this.carrito = new CarritoController();
 
         // Captura segura de controles
         this.tabFabrica = document.getElementById('tab-fabrica') as HTMLButtonElement;
@@ -111,7 +114,7 @@ class CatalogoApp {
     }
 
     private manejarCompra(producto: ProductoFrontend): void {
-        alert(`🛒 ¡Seleccionaste adquirir ${producto.nombre_item} por $${producto.precio_final} CR!\n\n(Conectado con la API de compras del Módulo 1)`);
+        this.carrito.agregarProducto(producto);
     }
 }
 

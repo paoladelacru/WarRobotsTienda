@@ -29,10 +29,9 @@ export const config: AppConfig = {
  */
 export async function connectDB(): Promise<void> {
     try {
-        await mongoose.connect(config.mongoUri);
+        await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 2000 });
         console.log('🍃 [MongoDB]: Conectado exitosamente a tienda_db local (Docker)');
     } catch (error) {
-        console.error('❌ Error conectando a MongoDB:', error);
-        process.exit(1);
+        console.warn('⚠️ [MongoDB]: Servidor MongoDB no disponible. Operando en modo local seguro con productos.json.');
     }
 }

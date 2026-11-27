@@ -586,3 +586,336 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* ==========================================================================
+   9. CARRITO DE COMPRAS (BEM: .cart-toggle, .cart-modal, .cart-item)
+   ========================================================================== */
+
+/* --- Botón del Carrito en el Header --- */
+.cart-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.cart-toggle:hover {
+    background-color: var(--primary);
+    color: var(--bg-main);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.cart-toggle__badge {
+    background-color: var(--danger);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    font-weight: 900;
+}
+
+/* --- Modal Nativo <dialog> --- */
+.cart-modal {
+    margin: auto;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    width: 95%;
+    max-width: 550px;
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.2);
+    padding: 0;
+}
+
+/* Fondo oscurecido con desenfoque */
+.cart-modal::backdrop {
+    background: rgba(10, 13, 20, 0.85);
+    backdrop-filter: blur(4px);
+}
+
+.cart-modal__content {
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+}
+
+/* Encabezado del modal */
+.cart-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-modal__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+.cart-modal__btn-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.cart-modal__btn-close:hover {
+    color: var(--danger);
+}
+
+/* Lista de ítems en el cuerpo */
+.cart-modal__body {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cart-items__empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2.5rem 1rem;
+    font-size: 1.1rem;
+}
+
+/* Tarjeta individual de producto en el carrito (BEM: .cart-item) */
+.cart-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem;
+}
+
+.cart-item__image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-highlight);
+}
+
+.cart-item__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.cart-item__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.cart-item__price {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-family: var(--font-display);
+}
+
+/* Controles de cantidad (+, -, borrar) */
+.cart-item__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cart-item__btn-qty {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-highlight);
+    color: var(--text-main);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cart-item__btn-qty:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.cart-item__qty {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.cart-item__btn-remove {
+    background: transparent;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.9rem;
+}
+
+/* --- Sección de Cupón de Descuento (BEM: .coupon) --- */
+.cart-modal__coupon {
+    padding: 0.75rem 1.25rem;
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+.coupon__label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+}
+
+.coupon__group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.coupon__input {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem;
+    color: var(--text-main);
+    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+}
+
+.coupon__input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.coupon__btn {
+    background-color: var(--border-highlight);
+    border: none;
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.coupon__btn:hover {
+    background-color: var(--primary);
+    color: var(--bg-main);
+}
+
+.coupon__message {
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+}
+
+.coupon__message--success {
+    color: var(--success);
+}
+
+.coupon__message--error {
+    color: var(--danger);
+}
+
+/* --- Resumen y Totales (BEM: .cart-summary) --- */
+.cart-modal__footer {
+    padding: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+}
+
+.cart-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+}
+
+.cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.cart-summary__row--discount {
+    color: var(--success);
+}
+
+.cart-summary__row--total {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--primary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Botones finales */
+.cart-modal__actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.cart-modal__btn-clear {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-modal__btn-clear:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.cart-modal__btn-checkout {
+    flex: 2;
+    background-color: var(--success);
+    border: none;
+    color: var(--bg-main);
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.cart-modal__btn-checkout:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+    transform: translateY(-2px);
+}

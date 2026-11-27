@@ -28,6 +28,12 @@
                 <span class="wallet__label">Billetera Piloto:</span>
                 <span class="wallet__amount" id="wallet-balance">$1.000 CR</span>
             </div>
+            <!-- Botón del Carrito con Accesibilidad y BEM -->
+            <button id="btn-open-cart" class="header__cart-btn cart-toggle" type="button" aria-label="Abrir carrito de compras" aria-haspopup="dialog">
+                <span class="cart-toggle__icon" aria-hidden="true">🛒</span>
+                <span class="cart-toggle__label">Carrito</span>
+                <span class="cart-toggle__badge" id="cart-badge" aria-label="0 componentes en el carrito">0</span>
+            </button>
         </div>
     </header>
 
@@ -109,6 +115,59 @@
             Oficial
         </p>
     </footer>
+
+    <!-- ==========================================================================
+         MODAL / PANEL DEL CARRITO (HTML5 Semántico con <dialog> y BEM)
+         ========================================================================== -->
+    <dialog id="cart-modal" class="cart-modal" aria-labelledby="cart-title">
+        <div class="cart-modal__content">
+            <!-- Encabezado del Carrito -->
+            <header class="cart-modal__header">
+                <h2 id="cart-title" class="cart-modal__title">🛒 Carrito de Compras</h2>
+                <button id="btn-close-cart" class="cart-modal__btn-close" type="button" aria-label="Cerrar carrito de compras">&times;</button>
+            </header>
+
+            <!-- Lista de Piezas en el Carrito (Inyectadas por TypeScript) -->
+            <section class="cart-modal__body" aria-live="polite">
+                <div id="cart-items-container" class="cart-items">
+                    <!-- Se renderiza dinámicamente con CarritoView -->
+                </div>
+            </section>
+
+            <!-- Sección de Cupón de Descuento (API 04) -->
+            <section class="cart-modal__coupon coupon" aria-label="Aplicar cupón de descuento">
+                <label for="coupon-input" class="coupon__label">Código Promocional / Cupón:</label>
+                <div class="coupon__group">
+                    <input type="text" id="coupon-input" class="coupon__input" placeholder="Ej: WARBOTS10" autocomplete="off" />
+                    <button id="btn-apply-coupon" class="coupon__btn" type="button">Aplicar</button>
+                </div>
+                <p id="coupon-message" class="coupon__message" aria-live="polite"></p>
+            </section>
+
+            <!-- Resumen Financiero y Acciones -->
+            <footer class="cart-modal__footer">
+                <div class="cart-summary">
+                    <div class="cart-summary__row">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">$0 CR</span>
+                    </div>
+                    <div class="cart-summary__row cart-summary__row--discount" id="cart-discount-row" style="display: none;">
+                        <span>Descuento Cupón:</span>
+                        <span id="cart-discount">-$0 CR</span>
+                    </div>
+                    <div class="cart-summary__row cart-summary__row--total">
+                        <span>Total Final:</span>
+                        <span id="cart-total">$0 CR</span>
+                    </div>
+                </div>
+
+                <div class="cart-modal__actions">
+                    <button id="btn-clear-cart" class="cart-modal__btn-clear" type="button">Vaciar Carrito</button>
+                    <button id="btn-checkout" class="cart-modal__btn-checkout" type="button">Confirmar Compra</button>
+                </div>
+            </footer>
+        </div>
+    </dialog>
 
     <!-- Script principal de TypeScript -->
     <script type="module" src="./src/ts/catalogo/index.ts"></script>
